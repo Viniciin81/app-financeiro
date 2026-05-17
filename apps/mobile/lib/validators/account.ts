@@ -1,13 +1,10 @@
 /**
  * Validators Zod para a entidade `accounts`.
  *
- * - `createAccountSchema`: campos obrigatórios + cross-field validation
- *   (cartão exige closing_day + due_day).
- * - `updateAccountSchema`: todos opcionais (PATCH parcial), sem cross-field
- *   pra simplificar parcial — o backend ainda valida.
- *
- * Compatível com Zod v4 (a API mudou: `error` em vez de `required_error`,
- * sem `.innerType()`).
+ * - `createAccountSchema`: shape básico. Validação cross-field (cartão exige
+ *   closing_day + due_day) fica no handler do form pra não quebrar
+ *   inferência do `zodResolver` em Zod v4.
+ * - `updateAccountSchema`: tudo opcional (PATCH parcial).
  */
 import { z } from 'zod';
 
@@ -31,8 +28,7 @@ export const accountTypeLabels: Record<AccountType, string> = {
 
 const dayOfMonth = z.coerce.number().int().min(1).max(31);
 
-// Schema base (sem cross-field). Usado pra montar create + update.
-const accountBaseSchema = z.object({
+export const createAccountSchema = z.object({
   name: z
     .string({ error: 'Informe um nome para a conta.' })
     .trim()
@@ -48,29 +44,31 @@ const accountBaseSchema = z.object({
   icon: z.string().nullable().optional(),
 });
 
-export const createAccountSchema = accountBaseSchema.superRefine((data, ctx) => {
-  if (data.type === 'credit_card') {
-    if (!data.closing_day) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Dia de fechamento é obrigatório para cartão.',
-        path: ['closing_day'],
-      });
-    }
-    if (!data.due_day) {
-      ctx.addIssue({
-        code: 'custom',
-        message: 'Dia de vencimento é obrigatório para cartão.',
-        path: ['due_day'],
-      });
-    }
-  }
-});
-
 export type CreateAccountInput = z.infer<typeof createAccountSchema>;
 
-export const updateAccountSchema = accountBaseSchema.partial().extend({
+export const updateAccountSchema = createAccountSchema.partial().extend({
   archived: z.boolean().optional(),
 });
 
 export type UpdateAccountInput = z.infer<typeof updateAccountSchema>;
+
+/**
+ * Validação cross-field para uso no submit handler.
+ * Retorna lista de erros (vazia se OK) — formato compatível com `setError` do RHF.
+ */
+export function validateAccountBusinessRules(
+  input: CreateAccountInput,
+): Array<{ path: keyof CreateAccountInput; message: string }> {
+  const errors: Array<{ path: keyof CreateAccountInput; message: string }> = [];
+
+  if (input.type === 'credit_card') {
+    if (!input.closing_day) {
+      errors.push({ path: 'closing_day', message: 'Obrigatório para cartão.' });
+    }
+    if (!input.due_day) {
+      errors.push({ path: 'due_day', message: 'Obrigatório para cartão.' });
+    }
+  }
+
+  return errors;
+}
