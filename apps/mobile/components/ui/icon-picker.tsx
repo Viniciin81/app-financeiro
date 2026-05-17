@@ -20,6 +20,7 @@ import {
   GraduationCap,
   HeartPulse,
   Home,
+  type LucideIcon,
   Music,
   PawPrint,
   PiggyBank,
@@ -37,13 +38,11 @@ import {
   Utensils,
   Wallet,
   Wrench,
-} from '@tamagui/lucide-icons';
+} from 'lucide-react-native';
 
 import { palette } from '@/tamagui.config';
 
-// Os ícones do @tamagui/lucide-icons aceitam `size: number` e `color: string`.
-// Não usamos o tipo exato (não exportado) — tipamos manualmente.
-type IconComponent = (props: { size?: number; color?: string }) => React.JSX.Element;
+type IconComponent = LucideIcon;
 
 export type IconOption = {
   /** Identificador salvo no banco. */
@@ -55,66 +54,36 @@ export type IconOption = {
 };
 
 export const iconOptions: IconOption[] = [
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'utensils', label: 'Comer fora', Component: Utensils as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'shopping-cart', label: 'Mercado', Component: ShoppingCart as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'pizza', label: 'Delivery', Component: Pizza as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'coffee', label: 'Café', Component: Coffee as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'car', label: 'Transporte', Component: Car as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'plane', label: 'Viagem', Component: Plane as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'home', label: 'Casa', Component: Home as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'heart-pulse', label: 'Saúde', Component: HeartPulse as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'stethoscope', label: 'Médico', Component: Stethoscope as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'dumbbell', label: 'Esporte', Component: Dumbbell as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'gamepad-2', label: 'Lazer', Component: Gamepad2 as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'music', label: 'Música', Component: Music as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'camera', label: 'Fotos', Component: Camera as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'graduation-cap', label: 'Educação', Component: GraduationCap as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'shirt', label: 'Roupas', Component: Shirt as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'shopping-bag', label: 'Compras', Component: ShoppingBag as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'sparkles', label: 'Beleza', Component: Sparkles as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'paw-print', label: 'Pet', Component: PawPrint as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'gift', label: 'Presentes', Component: Gift as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'repeat', label: 'Recorrência', Component: Repeat as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'receipt', label: 'Impostos', Component: Receipt as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'wrench', label: 'Serviços', Component: Wrench as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'credit-card', label: 'Cartão', Component: CreditCard as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'wallet', label: 'Carteira', Component: Wallet as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'piggy-bank', label: 'Poupança', Component: PiggyBank as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'briefcase', label: 'Trabalho', Component: Briefcase as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'trending-up', label: 'Investimento', Component: TrendingUp as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'rotate-ccw', label: 'Reembolso', Component: RotateCcw as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'circle-plus', label: 'Entrada extra', Component: CirclePlus as any },
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  { id: 'circle-ellipsis', label: 'Outros', Component: CircleEllipsis as any },
+  { id: 'utensils', label: 'Comer fora', Component: Utensils },
+  { id: 'shopping-cart', label: 'Mercado', Component: ShoppingCart },
+  { id: 'pizza', label: 'Delivery', Component: Pizza },
+  { id: 'coffee', label: 'Café', Component: Coffee },
+  { id: 'car', label: 'Transporte', Component: Car },
+  { id: 'plane', label: 'Viagem', Component: Plane },
+  { id: 'home', label: 'Casa', Component: Home },
+  { id: 'heart-pulse', label: 'Saúde', Component: HeartPulse },
+  { id: 'stethoscope', label: 'Médico', Component: Stethoscope },
+  { id: 'dumbbell', label: 'Esporte', Component: Dumbbell },
+  { id: 'gamepad-2', label: 'Lazer', Component: Gamepad2 },
+  { id: 'music', label: 'Música', Component: Music },
+  { id: 'camera', label: 'Fotos', Component: Camera },
+  { id: 'graduation-cap', label: 'Educação', Component: GraduationCap },
+  { id: 'shirt', label: 'Roupas', Component: Shirt },
+  { id: 'shopping-bag', label: 'Compras', Component: ShoppingBag },
+  { id: 'sparkles', label: 'Beleza', Component: Sparkles },
+  { id: 'paw-print', label: 'Pet', Component: PawPrint },
+  { id: 'gift', label: 'Presentes', Component: Gift },
+  { id: 'repeat', label: 'Recorrência', Component: Repeat },
+  { id: 'receipt', label: 'Impostos', Component: Receipt },
+  { id: 'wrench', label: 'Serviços', Component: Wrench },
+  { id: 'credit-card', label: 'Cartão', Component: CreditCard },
+  { id: 'wallet', label: 'Carteira', Component: Wallet },
+  { id: 'piggy-bank', label: 'Poupança', Component: PiggyBank },
+  { id: 'briefcase', label: 'Trabalho', Component: Briefcase },
+  { id: 'trending-up', label: 'Investimento', Component: TrendingUp },
+  { id: 'rotate-ccw', label: 'Reembolso', Component: RotateCcw },
+  { id: 'circle-plus', label: 'Entrada extra', Component: CirclePlus },
+  { id: 'circle-ellipsis', label: 'Outros', Component: CircleEllipsis },
 ];
 
 export function getIconComponent(id: string | null | undefined): IconComponent | null {
