@@ -4,7 +4,7 @@
  */
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Controller, useForm } from 'react-hook-form';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { Button } from '@/components/ui/button';
 import { Segmented } from '@/components/ui/segmented';
@@ -67,11 +67,16 @@ export function AccountForm({
   const isCreditCard = type === 'credit_card';
 
   return (
-    <ScrollView
-      contentContainerStyle={styles.scroll}
-      keyboardShouldPersistTaps="handled"
-      showsVerticalScrollIndicator={false}>
-      <View style={styles.fields}>
+    <KeyboardAvoidingView
+      style={styles.flex}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 88 : 0}>
+      <ScrollView
+        contentContainerStyle={styles.scroll}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+        automaticallyAdjustKeyboardInsets>
+        <View style={styles.fields}>
         <Controller
           control={control}
           name="name"
@@ -217,11 +222,13 @@ export function AccountForm({
           />
         ) : null}
       </View>
-    </ScrollView>
+      </ScrollView>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
+  flex: { flex: 1 },
   scroll: { padding: 16, gap: 24, paddingBottom: 40 },
   fields: { gap: 16 },
   fieldGroup: { gap: 6 },
