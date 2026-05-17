@@ -31,7 +31,13 @@ export function Segmented<T extends string>({ value, onChange, options }: Segmen
               active && styles.itemActive,
               pressed && !active && { opacity: 0.7 },
             ]}>
-            <Text style={[styles.label, active && styles.labelActive]}>{opt.label}</Text>
+            <Text
+              numberOfLines={1}
+              adjustsFontSizeToFit
+              minimumFontScale={0.7}
+              style={[styles.label, active && styles.labelActive]}>
+              {opt.label}
+            </Text>
           </Pressable>
         );
       })}
@@ -50,7 +56,7 @@ const styles = StyleSheet.create({
   item: {
     flex: 1,
     paddingVertical: 10,
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
     borderRadius: 8,
     alignItems: 'center',
     justifyContent: 'center',

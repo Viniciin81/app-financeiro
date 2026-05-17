@@ -30,8 +30,8 @@ const accountTypeOptions: { value: AccountType; label: string }[] = [
   { value: 'checking', label: 'Corrente' },
   { value: 'savings', label: 'Poupança' },
   { value: 'credit_card', label: 'Cartão' },
-  { value: 'investment', label: 'Invest.' },
-  { value: 'cash', label: 'Dinheiro' },
+  { value: 'investment', label: 'Invest' },
+  { value: 'cash', label: 'Carteira' },
 ];
 
 export function AccountForm({
