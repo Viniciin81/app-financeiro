@@ -12,6 +12,7 @@ import {
 
 import { ThemedView } from '@/components/themed-view';
 import { Button } from '@/components/ui/button';
+import { getIconComponent } from '@/components/ui/icon-picker';
 import { Segmented } from '@/components/ui/segmented';
 import { isGlobalCategory, useCategories, type Category } from '@/lib/queries/categories';
 import type { CategoryKind } from '@/lib/validators/category';
@@ -100,15 +101,18 @@ type ListItem =
 
 function CategoryRow({ category }: { category: Category }) {
   const isGlobal = isGlobalCategory(category);
+  const Icon = getIconComponent(category.icon);
+  const tint = category.color ?? palette.warmGray400;
 
   const content = (
     <View style={styles.row}>
-      <View
-        style={[
-          styles.colorDot,
-          { backgroundColor: category.color ?? palette.warmGray300 },
-        ]}
-      />
+      <View style={[styles.iconBubble, { backgroundColor: tint + '22', borderColor: tint }]}>
+        {Icon ? (
+          <Icon size={18} color={tint} />
+        ) : (
+          <View style={[styles.colorDot, { backgroundColor: tint }]} />
+        )}
+      </View>
       <View style={styles.rowMain}>
         <Text style={styles.rowName}>{category.name}</Text>
         {isGlobal ? (
@@ -158,9 +162,17 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   colorDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+  },
+  iconBubble: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    borderWidth: 1.5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   rowMain: { flex: 1, gap: 2 },
   rowName: { fontSize: 16, fontWeight: '500', color: palette.warmGray700 },
