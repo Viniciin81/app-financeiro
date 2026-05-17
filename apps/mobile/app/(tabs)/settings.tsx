@@ -5,6 +5,7 @@ import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { useAuth } from '@/lib/auth/AuthProvider';
 import { useAccounts } from '@/lib/queries/accounts';
+import { useCategories } from '@/lib/queries/categories';
 import { supabase } from '@/lib/supabase';
 import { palette } from '@/tamagui.config';
 
@@ -20,6 +21,8 @@ type SettingsItem = {
 export default function SettingsScreen() {
   const { user } = useAuth();
   const { data: accounts } = useAccounts({ archived: false });
+  const { data: categories } = useCategories({ archived: false });
+  const ownCategoriesCount = categories?.filter((c) => c.user_id !== null).length ?? 0;
 
   async function handleSignOut() {
     Alert.alert('Sair', 'Tem certeza que quer encerrar a sessão?', [
@@ -46,8 +49,9 @@ export default function SettingsScreen() {
         },
         {
           label: 'Categorias',
-          description: 'Em breve',
-          rightText: '—',
+          description: 'Padrão + personalizadas',
+          href: '/categories',
+          rightText: categories ? `${ownCategoriesCount}+${categories.length - ownCategoriesCount}` : undefined,
         },
       ],
     },
